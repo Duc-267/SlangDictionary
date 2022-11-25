@@ -27,6 +27,16 @@ public class SlangDictionary {
             e.printStackTrace();
         }
     }
+    
+    public void searchBySlang(String slang) {
+        List<String> meanings = slangDictionary.get(slang);
+        System.out.print("Meanings of " + slang + ":");
+        for (String meaning : meanings) {
+            System.out.print(meaning);
+        }
+        System.out.println();
+        System.out.println("-----------------------------");
+    }
     public void printAll() {
         for (String slang : slangDictionary.keySet()) {
             List<String> meanings = slangDictionary.get(slang);
