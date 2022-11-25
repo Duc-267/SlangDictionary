@@ -3,8 +3,10 @@ import java.util.*;
 
 public class SlangDictionary {
     HashMap<String, List<String>> slangDictionary;
+    HashMap<String, List<String>> searchHistory;
     public SlangDictionary() {
         slangDictionary = new HashMap<>();
+        searchHistory = new HashMap<>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("slang.txt"));
             String line;
@@ -12,12 +14,11 @@ public class SlangDictionary {
                 if(line.contains("`")) {
                     String[] words = line.split("`");
                     String slang = words[0];
-                    String definitions = words[1];
-                    String[] definition = definitions.split("\\|");
+                    String[] definitions = words[1].split("\\|");
                     List<String> definitionList = new ArrayList<>();
-                    for (String def : definition) {
-                        def.trim();
-                        definitionList.add(def);
+                    for (String definition : definitions) {
+                        definition.trim();
+                        definitionList.add(definition);
                     }
                     slangDictionary.put(slang, definitionList);
                 }
@@ -29,11 +30,14 @@ public class SlangDictionary {
     }
     
     public void searchBySlang(String slang) {
-        List<String> meanings = slangDictionary.get(slang);
+        List<String> definitions = slangDictionary.get(slang);
         System.out.print("Meanings of " + slang + ":");
-        for (String meaning : meanings) {
-            System.out.print(meaning);
+        List<String> definitionList = new ArrayList<>();
+        for (String definition : definitions) {
+            definitionList.add(definition);
+            System.out.print(definition);
         }
+        searchHistory.put(slang, definitionList);
         System.out.println();
         System.out.println("-----------------------------");
     }
@@ -48,6 +52,22 @@ public class SlangDictionary {
                 } 
             }
         }
+    }
+    public void showHistory() {
+        if (searchHistory.isEmpty()) {
+            System.out.print("No search history");
+        } else {
+            for (String slang : searchHistory.keySet()) {
+                System.out.println("Slang: " + slang);
+                List<String> definitions = searchHistory.get(slang);
+                System.out.print("Meanings: ");
+                for (String definition : definitions) {
+                    System.out.print(definition);
+                }
+            }
+        }
+        System.out.println();
+        System.out.println("-----------------------------");
     }
     public void printAll() {
         for (String slang : slangDictionary.keySet()) {
