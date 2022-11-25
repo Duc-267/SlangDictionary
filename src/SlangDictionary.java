@@ -37,6 +37,18 @@ public class SlangDictionary {
         System.out.println();
         System.out.println("-----------------------------");
     }
+    public void searchByDefinition(String definition) {
+        for (String slang : slangDictionary.keySet()) {
+            List<String> meanings = slangDictionary.get(slang);
+            for (String meaning : meanings) {
+                if (meaning.contains(definition)) {
+                    System.out.println("Slang: " + slang);
+                    System.out.println("Meaning: " + meaning);
+                    System.out.println("-----------------------------");
+                } 
+            }
+        }
+    }
     public void printAll() {
         for (String slang : slangDictionary.keySet()) {
             List<String> meanings = slangDictionary.get(slang);
