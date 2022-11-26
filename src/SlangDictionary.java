@@ -8,7 +8,7 @@ public class SlangDictionary {
         slangDictionary = new HashMap<>();
         searchHistory = new HashMap<>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("slang.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("database.txt"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if(line.contains("`")) {
@@ -28,16 +28,42 @@ public class SlangDictionary {
             e.printStackTrace();
         }
     }
-    
+    public void resetListSlang() {
+        slangDictionary.clear();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("slang.txt"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if(line.contains("`")) {
+                    String[] words = line.split("`");
+                    String slang = words[0];
+                    String[] definitions = words[1].split("\\|");
+                    List<String> definitionList = new ArrayList<>();
+                    for (String definition : definitions) {
+                        definition.trim();
+                        definitionList.add(definition);
+                    }
+                    slangDictionary.put(slang, definitionList);
+                }
+            }
+            bufferedReader.close();
+            this.saveToDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void searchBySlang(String slang) {
         List<String> definitions = slangDictionary.get(slang);
-        System.out.print("Meanings of " + slang + ":");
-        List<String> definitionList = new ArrayList<>();
-        for (String definition : definitions) {
-            definitionList.add(definition);
-            System.out.print(definition);
+        if (definitions != null) {
+            System.out.println("Slang: " + slang);
+            System.out.println("Definitions: ");
+            for (int i = 0; i < definitions.size(); i++) {
+                System.out.println((i + 1) + ". " + definitions.get(i));
+            }
+            searchHistory.put(slang, definitions);
+        } else {
+            System.out.print("Slang not found!");
         }
-        searchHistory.put(slang, definitionList);
         System.out.println();
         System.out.println("-----------------------------");
     }
@@ -47,10 +73,14 @@ public class SlangDictionary {
             for (String meaning : meanings) {
                 if (meaning.contains(definition)) {
                     System.out.println("Slang: " + slang);
-                    System.out.println("Meaning: " + meaning);
+                    System.out.println("Definitions: ");
+                    for (int i = 0; i < meanings.size(); i++) {
+                        System.out.println((i + 1) + ". " + meanings.get(i));
+                    }
                     System.out.println("-----------------------------");
-                } 
+                }
             }
+            
         }
     }
     public void showHistory() {
@@ -68,6 +98,37 @@ public class SlangDictionary {
         }
         System.out.println();
         System.out.println("-----------------------------");
+    }
+    public void addSlang(String slang, String definition) {
+        List<String> definitions = slangDictionary.get(slang);
+        if (definitions == null) {
+            definitions = new ArrayList<>();
+            definitions.add(definition);
+            slangDictionary.put(slang, definitions);
+        } else {
+            definitions.add(definition);
+        }
+        this.saveToDatabase();
+    }
+    public void saveToDatabase() {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("database.txt"));
+            for (String slang : slangDictionary.keySet()) {
+                bufferedWriter.write(slang + "`");
+                List<String> definitions = slangDictionary.get(slang);
+                for (int i = 0; i < definitions.size(); i++) {
+                    bufferedWriter.write(definitions.get(i));
+                    if (i != definitions.size() - 1) {
+                        bufferedWriter.write("|");
+                    }
+                }
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     public void printAll() {
         for (String slang : slangDictionary.keySet()) {
