@@ -64,7 +64,6 @@ public class SlangDictionary {
         } else {
             System.out.print("Slang not found!");
         }
-        System.out.println();
         System.out.println("-----------------------------");
     }
     public void searchByDefinition(String definition) {
@@ -106,9 +105,23 @@ public class SlangDictionary {
             definitions.add(definition);
             slangDictionary.put(slang, definitions);
         } else {
-            definitions.add(definition);
+            System.out.println("Slang already exists!");
+            System.out.println("Do you want to overwrite or add new definition?");
+            System.out.println("1. Overwrite");
+            System.out.println("2. Add new definition");
+            System.out.print("Your choice: ");
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                definitions.clear();
+                definitions.add(definition);
+            } else if (choice == 2) {
+                definitions.add(definition);
+            }
         }
         this.saveToDatabase();
+        System.out.println("Slang added!");
+        System.out.println("-----------------------------");
     }
     public void saveToDatabase() {
         try {
