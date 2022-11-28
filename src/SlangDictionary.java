@@ -17,7 +17,6 @@ public class SlangDictionary {
                     String[] definitions = words[1].split("\\|");
                     List<String> definitionList = new ArrayList<>();
                     for (String definition : definitions) {
-                        definition.trim();
                         definitionList.add(definition);
                     }
                     slangDictionary.put(slang, definitionList);
@@ -37,10 +36,9 @@ public class SlangDictionary {
                 if(line.contains("`")) {
                     String[] words = line.split("`");
                     String slang = words[0];
-                    String[] definitions = words[1].split("\\|");
+                    String[] definitions = words[1].split("\\| ");
                     List<String> definitionList = new ArrayList<>();
                     for (String definition : definitions) {
-                        definition.trim();
                         definitionList.add(definition);
                     }
                     slangDictionary.put(slang, definitionList);
@@ -123,6 +121,18 @@ public class SlangDictionary {
         System.out.println("Slang added!");
         System.out.println("-----------------------------");
     }
+    public void editSlang(String slang, String definition) {
+        List<String> definitions = slangDictionary.get(slang);
+        if (definitions != null) {
+            definitions.clear();
+            definitions.add(definition);
+            this.saveToDatabase();
+            System.out.println("Slang edited!");
+        } else {
+            System.out.println("Slang not found!");
+        }
+        System.out.println("-----------------------------");
+    }
     public void saveToDatabase() {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("database.txt"));
@@ -141,7 +151,6 @@ public class SlangDictionary {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     public void printAll() {
         for (String slang : slangDictionary.keySet()) {
