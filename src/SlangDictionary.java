@@ -60,7 +60,7 @@ public class SlangDictionary {
             }
             searchHistory.put(slang, definitions);
         } else {
-            System.out.print("Slang not found!");
+            System.out.println("Slang not found!");
         }
         System.out.println("-----------------------------");
     }
@@ -130,6 +130,29 @@ public class SlangDictionary {
             System.out.println("Slang edited!");
         } else {
             System.out.println("Slang not found!");
+        }
+        System.out.println("-----------------------------");
+    }
+    public void deleteSlang(String slang) {
+        List<String> definitions = slangDictionary.get(slang);
+        System.out.println("Do you want to delete this slang?");
+        System.out.println("Slang: " + slang);
+        System.out.println("Definitions: ");
+        for (int i = 0; i < definitions.size(); i++) {
+            System.out.println((i + 1) + ". " + definitions.get(i));
+        }
+        System.out.println("-----------------------------");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        System.out.print("Your choice: ");
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        if (choice == 1) {
+            slangDictionary.remove(slang);
+            this.saveToDatabase();
+            System.out.println("Slang deleted!");
+        } else {
+            System.out.println("Slang not deleted!");
         }
         System.out.println("-----------------------------");
     }

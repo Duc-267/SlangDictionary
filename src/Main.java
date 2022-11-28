@@ -7,5 +7,7 @@ public class Main {
         slangDictionary.editSlang("TxxxI", "Duccc");
         slangDictionary.searchBySlang("TxxxI");
         slangDictionary.searchBySlang("SWAGG ");
+        slangDictionary.deleteSlang("TxxxI");
+        slangDictionary.searchBySlang("TxxxI");
     }
 }
