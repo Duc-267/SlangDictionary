@@ -10,7 +10,6 @@ public class Main {
         // slangDictionary.deleteSlang("TxxxI");
         // slangDictionary.searchBySlang("TxxxI");
         // slangDictionary.showHistory();
-        slangDictionary.searchByDefinition("United");
-        slangDictionary.randomSlang();
+        slangDictionary.slangQuiz();
     }
 }

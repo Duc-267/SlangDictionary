@@ -156,23 +156,62 @@ public class SlangDictionary {
         }
         System.out.println("-----------------------------");
     }
-    public void randomSlang() {
+    public String randomSlang(){
         Random random = new Random();
-        int index = random.nextInt(slangDictionary.size());
-        int i = 0;
-        for (String slang : slangDictionary.keySet()) {
-            if (i == index) {
-                System.out.println("Slang: " + slang);
-                List<String> definitions = slangDictionary.get(slang);
-                System.out.println("Definitions: ");
-                for (int j = 0; j < definitions.size(); j++) {
-                    System.out.println((j + 1) + ". " + definitions.get(j));
-                }
-                System.out.println("-----------------------------");
-                break;
+        List<String> keys = new ArrayList<String>(slangDictionary.keySet());
+        return keys.get(random.nextInt(keys.size()));
+    }
+    // public void randomSlang() {
+    //     Random random = new Random();
+    //     int index = random.nextInt(slangDictionary.size());
+    //     int i = 0;
+    //     List<String> listAnswer = new ArrayList<>();
+    //     for (String slang : slangDictionary.keySet()) {
+    //         if (i == index) {
+    //             System.out.println("Slang: " + slang);
+    //             List<String> definitions = slangDictionary.get(slang);
+    //             System.out.println("Definitions: ");
+    //             for (int j = 0; j < definitions.size(); j++) {
+    //                 System.out.println((j + 1) + ". " + definitions.get(j));
+    //             }
+    //             System.out.println("-----------------------------");
+    //             break;
+    //         }
+    //         i++;
+    //     }
+    // }
+    public void slangQuiz() {
+        String question = this.randomSlang();
+        List<String> questionDefinitions = slangDictionary.get(question);
+        String answer = questionDefinitions.get(0);
+        List<String> choicesList = new ArrayList<>();
+        choicesList.add(answer);
+        for (int i = 0; i < 3; i++) {
+            String choice = this.randomSlang();
+            List<String> choiceDefinitions = slangDictionary.get(choice);
+            String choiceDefinition = choiceDefinitions.get(0);
+            if (!choicesList.contains(choiceDefinition)) {
+                choicesList.add(choiceDefinition);
+            } else {
+                i--;
             }
-            i++;
         }
+        Collections.shuffle(choicesList);
+        System.out.println("Slang: " + question);
+        System.out.println("Definitions: ");
+        for (int i = 0; i < choicesList.size(); i++) {
+            System.out.println((i + 1) + ". " + choicesList.get(i));
+        }
+        System.out.println("-----------------------------");
+        System.out.print("Your choice: ");
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        if (choicesList.get(choice - 1).equals(answer)) {
+            System.out.println("Correct!");
+        } else {
+            System.out.println("Wrong! The correct answer is: " + answer);
+        }
+        System.out.println("-----------------------------");
     }
     public void saveToDatabase() {
         try {
