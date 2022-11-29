@@ -11,5 +11,6 @@ public class Main {
         // slangDictionary.searchBySlang("TxxxI");
         // slangDictionary.showHistory();
         slangDictionary.slangQuiz();
+        slangDictionary.definitionQuiz();
     }
 }
