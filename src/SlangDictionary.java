@@ -74,10 +74,10 @@ public class SlangDictionary {
                     for (int i = 0; i < meanings.size(); i++) {
                         System.out.println((i + 1) + ". " + meanings.get(i));
                     }
+                    searchHistory.put(slang, meanings);
                     System.out.println("-----------------------------");
                 }
             }
-            
         }
     }
     public void showHistory() {
@@ -160,6 +160,24 @@ public class SlangDictionary {
         Random random = new Random();
         List<String> keys = new ArrayList<String>(slangDictionary.keySet());
         return keys.get(random.nextInt(keys.size()));
+    }
+    public void onThisDaySlangWord() {
+        Random random = new Random();
+        int index = random.nextInt(slangDictionary.size());
+        int i = 0;
+        for (String slang : slangDictionary.keySet()) {
+            if (i == index) {
+                System.out.println("Slang: " + slang);
+                List<String> definitions = slangDictionary.get(slang);
+                System.out.println("Definitions: ");
+                for (int j = 0; j < definitions.size(); j++) {
+                    System.out.println((j + 1) + ". " + definitions.get(j));
+                }
+                System.out.println("-----------------------------");
+                break;
+            }
+            i++;
+        }
     }
     public void slangQuiz() {
         String question = this.randomSlang();
