@@ -156,6 +156,24 @@ public class SlangDictionary {
         }
         System.out.println("-----------------------------");
     }
+    public void randomSlang() {
+        Random random = new Random();
+        int index = random.nextInt(slangDictionary.size());
+        int i = 0;
+        for (String slang : slangDictionary.keySet()) {
+            if (i == index) {
+                System.out.println("Slang: " + slang);
+                List<String> definitions = slangDictionary.get(slang);
+                System.out.println("Definitions: ");
+                for (int j = 0; j < definitions.size(); j++) {
+                    System.out.println((j + 1) + ". " + definitions.get(j));
+                }
+                System.out.println("-----------------------------");
+                break;
+            }
+            i++;
+        }
+    }
     public void saveToDatabase() {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("database.txt"));
